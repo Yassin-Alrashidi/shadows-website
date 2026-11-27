@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Replace yassin-alrashidi.github.io/shadows-website with the real address at launch. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://yassin-alrashidi.github.io/shadows-website/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yassin-alrashidi.github.io/shadows-website/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://yassin-alrashidi.github.io/shadows-website/?lang=ar"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

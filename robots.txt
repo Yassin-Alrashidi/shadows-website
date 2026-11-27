@@ -1,0 +1,8 @@
+# PRE-LAUNCH: block everything. AT LAUNCH, delete the next two lines
+# and uncomment the Allow and Sitemap lines below (use your real domain).
+User-agent: *
+Disallow: /
+
+# User-agent: *
+# Allow: /
+# Sitemap: https://yassin-alrashidi.github.io/shadows-website/sitemap.xml
