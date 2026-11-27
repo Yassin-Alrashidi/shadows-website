@@ -12,11 +12,13 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var f = document.createElement('iframe');
   f.className = 'hero__stage'; f.src = 'stage/stage.html'; f.title = ''; f.tabIndex = -1;
+  f.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100vh;height:100svh;min-height:560px;border:0;background:transparent;pointer-events:none;opacity:0;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)';
   f.setAttribute('aria-hidden', 'true'); f.setAttribute('scrolling', 'no'); f.setAttribute('loading', 'eager');
   hero.insertBefore(f, hero.firstChild);
   html.classList.add('has-gl');
+  // (inline styles above: if a cached old stylesheet is served, the frame still never shows as a box)
   var ready = false;
-  f.addEventListener('load', function () { setTimeout(function () { ready = true; f.classList.add('on'); if (!reduce) setTimeout(flap, 2600); }, 600); });
+  f.addEventListener('load', function () { setTimeout(function () { ready = true; f.classList.add('on'); f.style.opacity = '1'; if (!reduce) setTimeout(flap, 2600); }, 600); });
   function post(m) { try { f.contentWindow.postMessage(m, '*'); } catch (e) {} }
   function flap() { if (ready && !reduce && !document.hidden && heroVisible) post({ t: 'flap' }); }
   window.shadowsFlap = flap;

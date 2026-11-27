@@ -532,3 +532,22 @@ html[lang="ar"] .disc{text-transform:none;letter-spacing:0;font-size:1.05rem}
   .has-gl .hero__sub{font-size:.98rem;margin:12px auto 18px}
 }
 @media (prefers-reduced-motion:reduce){.hero__stage{transition:none}}
+
+/* ===== POWER PASS ===== */
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto!important}
+.smoke{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.9}
+.has-smoke main,.has-smoke .foot{position:relative;z-index:1}
+.has-smoke .sec--alt{background:rgba(12,12,15,.55)!important}
+.marquee{transform:skewX(calc(var(--v,0) * -7deg));will-change:transform}
+.wipe{position:fixed;inset:0;z-index:300;pointer-events:none;visibility:hidden}
+.wipe i,.wipe b{position:absolute;left:0;right:0;height:100%;transform:translateY(101%)}
+.wipe i{background:var(--black);bottom:0}
+.wipe b{background:linear-gradient(#e11827,#910814);bottom:0;height:101%}
+.wipe.in,.wipe.out{visibility:visible}
+.wipe.in b{animation:wp-in .43s cubic-bezier(.7,0,.2,1) both}
+.wipe.in i{animation:wp-in .43s cubic-bezier(.7,0,.2,1) .07s both}
+.wipe.out b{animation:wp-out .55s cubic-bezier(.7,0,.2,1) .08s both}
+.wipe.out i{animation:wp-out .55s cubic-bezier(.7,0,.2,1) both}
+@keyframes wp-in{from{transform:translateY(101%)}to{transform:translateY(0)}}
+@keyframes wp-out{from{transform:translateY(0)}to{transform:translateY(-101%)}}
