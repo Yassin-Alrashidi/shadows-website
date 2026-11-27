@@ -169,7 +169,7 @@ html[lang="ar"] .steps__n{text-align:start}
   .grid--3 .card:last-child{grid-column:span 2}
   .steps{grid-template-columns:1fr 1fr;gap:34px 0}
   .steps li:nth-child(3){padding-inline-start:0;border-inline-start:0}
-  .studio__grid,.contact{grid-template-columns:1fr;gap:40px}
+  .studio__grid,.contact{grid-template-columns:minmax(0,1fr);gap:40px}
   .grid--work{grid-template-columns:1fr 1fr}
 
 }
@@ -563,3 +563,9 @@ html[lang="ar"] .intro__hint{letter-spacing:.08em}
 @keyframes hintp{50%{opacity:.35}}
 .intro__choices{max-width:min(720px,100%)}
 @media (max-width:560px){.intro__choices .btn{flex:1 1 44%}}
+/* polish: never let a long word widen a grid column */
+.studio__grid>*,.contact>*{min-width:0}
+.sec h2{overflow-wrap:anywhere;hyphens:auto}
+@media(max-width:480px){.studio h2{font-size:clamp(1.7rem,8.2vw,2.4rem)}}
+/* polish: intro buttons keep one height and readable two-line text */
+.intro__choices .btn{line-height:1.2;min-height:48px;text-align:center}
