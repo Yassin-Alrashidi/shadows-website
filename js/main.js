@@ -100,16 +100,65 @@
   /* ---------- owl intro (first visit per session, silent) ---------- */
   var intro = $('#intro'), line = $('#introLine'), choices = $('#introChoices');
   var introActive = false, typeTimer = null;
+  var owlEl = $('.intro__owl'), hint = $('#introHint'), typed = false, revealed = false, moved = false, revealTimer = null;
+  var ptr = { x: innerWidth / 2, y: innerHeight * .4, has: false }, rest = null;
+  function restCenter() { var tr = owlEl.style.transform; owlEl.style.transform = 'none'; var r = owlEl.getBoundingClientRect(); owlEl.style.transform = tr; rest = { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height }; }
+  function revealChoices() {
+    if (revealed || !introActive) return; revealed = true; clearTimeout(revealTimer);
+    hint.classList.remove('show'); choices.style.transition = 'none'; choices.classList.add('show');
+    if (reduce || !choices.animate) return;
+    var o = owlEl.getBoundingClientRect(), ox = o.left + o.width / 2, oy = o.top + o.height * .55;
+    [].forEach.call(choices.children, function (b, i) {
+      var r = b.getBoundingClientRect(), dx = ox - (r.left + r.width / 2), dy = oy - (r.top + r.height / 2);
+      b.animate([{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.12)', opacity: 0 }, { opacity: 1, offset: .35 }, { transform: 'none', opacity: 1 }],
+        { duration: 900, delay: i * 120, easing: 'cubic-bezier(.2,1.2,.3,1)', fill: 'backwards' });
+    });
+  }
+  function armReveal() {
+    typed = true;
+    if (moved) { setTimeout(revealChoices, 250); return; }
+    hint.textContent = t(coarse ? 'intro.hint.t' : 'intro.hint.m'); hint.classList.add('show');
+    revealTimer = setTimeout(revealChoices, coarse ? 2600 : 7000);   // a visitor who never moves still gets the choices
+  }
+  function touched(e) {
+    if (!introActive) return;
+    moved = true; ptr.has = true;
+    var p = e.touches && e.touches[0] ? e.touches[0] : e; if (p.clientX != null) { ptr.x = p.clientX; ptr.y = p.clientY; }
+    if (typed && !revealed) revealChoices();
+  }
+  var coarse = matchMedia('(pointer: coarse)').matches;
+  ['pointermove', 'pointerdown', 'touchstart', 'touchmove'].forEach(function (ev) { window.addEventListener(ev, touched, { passive: true }); });
+  // the owl looks toward the pointer and flies after it, easing, never snapping
+  var ox = 0, oy = 0, orx = 0, ory = 0, osc = 1, tPrev = 0;
+  function owlFrame(now) {
+    if (!introActive) { owlEl.style.transform = ''; return; }
+    requestAnimationFrame(owlFrame);
+    if (!rest) restCenter();
+    var dt = Math.min(.05, (now - tPrev) / 1000 || .016); tPrev = now;
+    var tx, ty;
+    if (ptr.has) { tx = (ptr.x - rest.x) * .5; ty = (ptr.y - rest.y) * .22; }
+    else { tx = Math.sin(now / 1500) * 34; ty = Math.cos(now / 1100) * 14; }
+    var mxo = Math.max(0, innerWidth / 2 - rest.w * .55), myo = Math.max(0, Math.min(rest.y - rest.h * .5, innerHeight * .12));
+    tx = Math.max(-mxo, Math.min(mxo, tx)); ty = Math.max(-myo, Math.min(myo, ty));
+    var k = 1 - Math.exp(-dt * 3.6);
+    ox += (tx - ox) * k; oy += (ty - oy) * k;
+    var nx = ptr.has ? (ptr.x - (rest.x + ox)) / innerWidth : Math.sin(now / 1500) * .1, ny = ptr.has ? (ptr.y - (rest.y + oy)) / innerHeight : 0;
+    orx += (Math.max(-1, Math.min(1, -ny * 2.2)) * 16 - orx) * k; ory += (Math.max(-1, Math.min(1, nx * 2.4)) * 26 - ory) * k;
+    var near = ptr.has ? Math.max(0, 1 - Math.hypot(ptr.x - (rest.x + ox), ptr.y - (rest.y + oy)) / (innerWidth * .5)) : 0;
+    osc += ((1 + near * .16) - osc) * k;
+    owlEl.style.transform = 'translate(' + ox.toFixed(1) + 'px,' + oy.toFixed(1) + 'px) perspective(700px) rotateX(' + orx.toFixed(2) + 'deg) rotateY(' + ory.toFixed(2) + 'deg) scale(' + osc.toFixed(3) + ')';
+  }
+  addEventListener('resize', function () { rest = null; });
   function typeLine(restart) {
     clearTimeout(typeTimer);
     var text = t('intro.line'), i = 0;
     line.textContent = '';
-    if (reduce) { line.textContent = text; choices.classList.add('show'); return; }
-    if (restart) choices.classList.remove('show');
+    if (reduce) { line.textContent = text; choices.classList.add('show'); revealed = true; return; }
+    if (restart) { choices.classList.remove('show'); revealed = false; typed = false; choices.style.transition = ''; }
     (function step() {
       i++; line.textContent = text.slice(0, i);
       if (i < text.length) typeTimer = setTimeout(step, lang === 'ar' ? 65 : 48);
-      else typeTimer = setTimeout(function () { choices.classList.add('show'); }, 350);
+      else typeTimer = setTimeout(armReveal, 350);
     })();
   }
   function closeIntro() {
@@ -117,6 +166,7 @@
     introActive = false; clearTimeout(typeTimer);
     intro.classList.add('out');
     root.classList.remove('lock');
+    document.dispatchEvent(new Event('shadows:intro-done'));
     setTimeout(function () { intro.hidden = true; }, reduce ? 0 : 700);
     try { sessionStorage.setItem('shadows-intro', '1'); } catch (e) {}
   }
@@ -124,9 +174,10 @@
   try { seen = sessionStorage.getItem('shadows-intro') === '1'; } catch (e) {}
   if (!seen && !location.hash) {
     intro.hidden = false; introActive = true; root.classList.add('lock');
-    setTimeout(function () { intro.classList.add('on'); typeLine(false); }, reduce ? 0 : 500);
+    setTimeout(function () { intro.classList.add('on'); typeLine(false); if (!reduce) requestAnimationFrame(owlFrame); }, reduce ? 0 : 500);
     $('#introSkip').addEventListener('click', closeIntro);
     [].forEach.call(choices.querySelectorAll('a'), function (a) { a.addEventListener('click', closeIntro); });
+    $('#introExplore').addEventListener('click', function () { setTimeout(function () { if (window.shadowsStartTour) window.shadowsStartTour(); }, 1100); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeIntro(); });
   }
 

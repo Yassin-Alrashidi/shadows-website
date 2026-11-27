@@ -86,6 +86,7 @@
       if (window.scrollY > 40) glide0(startTour); else startTour();
     });
   }
+  window.shadowsStartTour = function () { if (!tourBtn || touring) return; if (window.scrollY > 40) glide0(startTour); else startTour(); };
   function glide0(cb) { touring = true; glide(0, 700, function () { touring = false; cb(); }); }
   if (langBtn) langBtn.addEventListener('click', function () { setTimeout(function () { if (tourBtn) label(touring); }, 0); });
 

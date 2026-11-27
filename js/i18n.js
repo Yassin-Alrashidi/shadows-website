@@ -3,7 +3,7 @@
 window.SHADOWS_AR = {
   'skip': 'تخطّى إلى المحتوى',
   'nav.services': 'خدماتنا', 'nav.work': 'أعمالنا', 'nav.process': 'طريقة الشغل', 'nav.studio': 'الاستوديو', 'nav.contact': 'تواصل معانا', 'nav.cta': 'ابدأ مشروعك',
-  'intro.work': 'شوف شغلنا', 'intro.about': 'اعرف إحنا مين', 'intro.contact': 'اتكلم معانا', 'intro.skip': 'تخطّي',
+  'intro.work': 'شوف شغلنا', 'intro.about': 'اعرف إحنا مين', 'intro.contact': 'اتكلم معانا', 'intro.skip': 'تخطّي', 'intro.explore': 'سيبني استكشف', 'intro.hint.m': 'حرّك الماوس', 'intro.hint.t': 'المس الشاشة',
   'hero.eyebrow': 'استوديو تسويق رقمي وإبداع',
   'hero.title': 'We Move in Silence',
   'hero.sub': 'تصوير وفيديو وحملات إعلانية تخلّي براندك مش بيتنسي.',
@@ -34,6 +34,7 @@ window.SHADOWS_AR_META = {
   twDescription: 'We Move in Silence. اترك أثر. وابقى مش بيتنسي.'
 };
 window.SHADOWS_EN = {
+  'intro.hint.m': 'Move your cursor', 'intro.hint.t': 'Touch the screen',
   'intro.line': 'Hello. We are Shadows. We move in silence, and let our work speak.',
   'f.ok': 'Message received. We will reply soon.', 'f.err': 'Something went wrong. Try WhatsApp or email.', 'f.req': 'Please fill in your name, a way to reach you and a message.', 'f.inactive': 'The form is not activated yet. Please reach us on WhatsApp or email.', 'f.sending': 'Sending...'
 };

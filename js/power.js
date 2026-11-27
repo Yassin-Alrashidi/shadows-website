@@ -77,7 +77,7 @@
         var slow = 0;
         (function draw(now) {
           if (!ok) return; requestAnimationFrame(draw);
-          if (!vis) return;
+          if (!vis || window.scrollY < innerHeight * .85) return;   // the hero covers it: nothing to draw
           var gap = small || coarse ? 42 : 24;
           if (now - lastDraw < gap) return;
           var dt = now - lastDraw; lastDraw = now;
