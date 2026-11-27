@@ -569,3 +569,18 @@ html[lang="ar"] .intro__hint{letter-spacing:.08em}
 @media(max-width:480px){.studio h2{font-size:clamp(1.7rem,8.2vw,2.4rem)}}
 /* polish: intro buttons keep one height and readable two-line text */
 .intro__choices .btn{line-height:1.2;min-height:48px;text-align:center}
+/* polish v2: no outlines. Depth from fill and soft shadow only. */
+.card,.tile,.channel,.form,.ask,.bub--owl,.ask__chips button{border:0!important;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.card,.channel,.form,.ask{background:#121216}
+.card:hover,.channel:hover,.ask__chips button:hover,.ask__chips button.on{box-shadow:0 14px 36px rgba(0,0,0,.55),0 0 0 0 transparent}
+.form input,.form textarea{border:0!important;background:#1B1B20!important;box-shadow:none}
+.form input:focus,.form textarea:focus{box-shadow:0 0 0 3px rgba(225,24,39,.35)!important}
+.lang,.burger,.nav--solid{border:0!important}
+.lang,.burger{background:#1B1B20}
+.ask__head,.ask__chips{border:0!important}
+.ask__chips button{background:#1B1B20}
+.values li,.values li:last-child,.faq__i,.faq__list,.steps li,.steps__get,.nav__links a,.foot,.marquee{border:0!important}
+.faq__i{background:#121216;margin-bottom:10px;padding-inline:18px;border-radius:4px}
+.values li{background:#121216;padding:20px 18px;margin-bottom:10px;border-radius:4px}
+.steps li{padding-inline:0!important}
+@media(min-width:861px){.contact h2{font-size:clamp(2rem,3.5vw,3.3rem)}}
