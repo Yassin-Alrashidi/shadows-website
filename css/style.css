@@ -514,3 +514,21 @@ html[lang="ar"] .disc{text-transform:none;letter-spacing:0;font-size:1.05rem}
 .mf-pinned .mf-pin{padding-top:var(--nav-h)}
 @media (max-width:560px){.hero{padding-bottom:84px}}
 @media (max-width:700px){.scrollcue{display:none}}
+
+/* ===== ORIGINAL OWL STAGE (iframe with the three.js owl on its burning branch) ===== */
+.hero__stage{position:absolute;left:0;top:0;width:100%;height:100svh;min-height:560px;border:0;background:transparent;pointer-events:none;opacity:0;transition:opacity 1.2s ease;
+  -webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent);color-scheme:dark}
+.hero__stage.on{opacity:1}
+.has-gl .hero{align-items:start}
+.has-gl .hero__inner{padding-top:max(43svh,310px)}
+.has-gl .hero__owlwrap,.has-gl .hero__ghost,.has-gl .hero__bg canvas,.has-gl .hero__glow{display:none}
+.has-gl .hero__title{font-size:clamp(2.3rem,6.2vw,5.6rem)}
+.has-gl .hero__sub{margin:12px auto 20px}
+.has-gl .hero{padding-bottom:70px}
+.has-gl .hero__eb{margin-bottom:10px}
+@media (max-width:700px){
+  .has-gl .hero__inner{padding-top:calc(94px + 23svh + 96px)}
+  .has-gl .hero__title{font-size:clamp(2.2rem,11vw,3.6rem)}
+  .has-gl .hero__sub{font-size:.98rem;margin:12px auto 18px}
+}
+@media (prefers-reduced-motion:reduce){.hero__stage{transition:none}}
